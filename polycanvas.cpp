@@ -2,6 +2,7 @@
 #include<QDebug>
 #include "polycanvas.h"
 #include<iostream>
+#include<QMouseEvent>
 using namespace std;
 
 
@@ -91,6 +92,7 @@ PolyCanvas::PolyCanvas(QWidget *parent) :
     QWidget(parent)
 {
     points.append({QPoint(50,50),QPoint(75,150),QPoint(225,150),QPoint(125,175)});
+    setMouseTracking(true);
     canvas=new QImage(500,500,QImage::Format_ARGB32);
     paintCanvas(canvas,&points);
 }
@@ -99,4 +101,14 @@ void PolyCanvas::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
     painter.drawImage(QPoint(0,0),*canvas);
+}
+
+void PolyCanvas::mouseMoveEvent(QMouseEvent *e)
+{
+    if(e->x()<canvas->width()&&e->y()<canvas->height())
+    {
+        points[0]=QPoint(e->x(),e->y());
+        paintCanvas(canvas,&points);
+        update();
+    }
 }
