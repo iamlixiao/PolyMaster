@@ -22,10 +22,16 @@ void drawLine(QImage*canvas,QPoint previousPoint,QPoint currentPoint){ //image, 
 
     double k=(double)d.y()/d.x();
     qDebug()<<k;
-    for(int x=(d.x()<0?d.x():0);x<=(d.x()>0?d.x():0);++x)
+    for(int x=(d.x()<0?d.x():0);x<(d.x()>0?d.x():0);++x)
     {
         int y=x*k+previousPoint.y()+0.5;
-        canvas->setPixel(previousPoint.x()+x,y,qRgb(255,0,0));
+        //canvas->setPixel(previousPoint.x()+x,y,qRgb(255,0,0));
+        for(int yy=y;yy<500;yy++){
+            if (canvas->pixel(previousPoint.x()+x,yy)==qRgb(255,0,0))
+                canvas->setPixel(previousPoint.x()+x,yy,qRgb(255,255,255));
+            else
+                canvas->setPixel(previousPoint.x()+x,yy,qRgb(255,0,0));
+        }
     }
 
 }
@@ -46,7 +52,7 @@ void paintCanvas(QImage*canvas,QList<QPoint>*points)
     }
     drawLine(canvas,points->at(points->size()-1),points->at(0));
 
-    int minX = 499;
+    /*int minX = 499;
     int maxX = 0;
     for(int i=0;i<points->size();i++){
         if (points->at(i).x()>maxX)
@@ -74,19 +80,13 @@ void paintCanvas(QImage*canvas,QList<QPoint>*points)
             else
                  canvas->setPixel(scanLine,i,qRgb(255,0,0));
          }
-    }
+    }*/
+
+
+
 }
 
 
-    /*QPoint leftone(-1,0),rightone(1,0),topone(0,-1),buttomone(0,1);
-    foreach(QPoint point,*points)
-    {
-        canvas->setPixel(point,qRgb(0,0,0));
-        canvas->setPixel(point+leftone,qRgb(0,0,0));
-        canvas->setPixel(point+rightone,qRgb(0,0,0));
-        canvas->setPixel(point+topone,qRgb(0,0,0));
-        canvas->setPixel(point+buttomone,qRgb(0,0,0));
-    }*/
 
 PolyCanvas::PolyCanvas(QWidget *parent) :
     QWidget(parent)
