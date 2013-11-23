@@ -18,6 +18,7 @@ public slots:
 protected:
     void paintEvent(QPaintEvent *);
     void mouseMoveEvent(QMouseEvent *);
+    void mousePressEvent(QMouseEvent *);
 };
 
 #endif // POLYCANVAS_H
