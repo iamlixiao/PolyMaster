@@ -67,6 +67,9 @@ PolyCanvas::PolyCanvas(QWidget *parent) :
     canvas=new QImage(500,500,QImage::Format_ARGB32);
     canvas->fill(Qt::white);
 
+    setWindowTitle("多边形绘图");
+    resize(650,500);
+
     QPushButton*clearbutton=new QPushButton("清空",this);
     clearbutton->move(width()-clearbutton->width()-25,25);
     connect(clearbutton,&QPushButton::clicked,[=]{
@@ -77,7 +80,7 @@ PolyCanvas::PolyCanvas(QWidget *parent) :
     });
 
     QLineEdit*rgbedit=new QLineEdit("255,0,0",this);
-    rgbedit->move(width()-clearbutton->width()-25,75);
+    rgbedit->setGeometry(width()-clearbutton->width()-25,75,clearbutton->width(),rgbedit->height());
     QPushButton*changecolor=new QPushButton("更改颜色",this);
     changecolor->move(width()-clearbutton->width()-25,125);
     connect(changecolor,&QPushButton::clicked,[=]{
