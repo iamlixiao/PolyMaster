@@ -20,6 +20,7 @@ protected:
     void paintEvent(QPaintEvent *);
     void mouseMoveEvent(QMouseEvent *);
     void mousePressEvent(QMouseEvent *);
+    void leaveEvent(QEvent *);
 };
 
 #endif // POLYCANVAS_H

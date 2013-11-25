@@ -5,17 +5,24 @@
 #include<QMouseEvent>
 using namespace std;
 
+void drawPix(QRgb*canvas,int w,int h,int x,int y,QRgb color)
+{
+    if(x>0&&x<w&&y>0&&y<h)
+        canvas[y*w+x]=color;
+}
 
 void fillRegion(QImage*canvas,QPoint previousPoint,QPoint currentPoint,QRgb color){ //image, point0, point1
 
     QPoint d=currentPoint-previousPoint;
+
+    QRgb*canvaspix=(QRgb*)canvas->bits();
     if (d.x()==0){
         if (d.y()>0)
             for(int i=0;i<d.y();i++)
-                canvas->setPixel(previousPoint.x(),previousPoint.y()+i,color);
+                drawPix(canvaspix,canvas->width(),canvas->height(),previousPoint.x(),previousPoint.y()+i,color);
         else
             for(int i=d.y();i<=0;i++)
-                canvas->setPixel(previousPoint.x(),previousPoint.y()+i,color);
+                drawPix(canvaspix,canvas->width(),canvas->height(),previousPoint.x(),previousPoint.y()+i,color);
         return;
     }
 
@@ -26,9 +33,9 @@ void fillRegion(QImage*canvas,QPoint previousPoint,QPoint currentPoint,QRgb colo
         //canvas->setPixel(previousPoint.x()+x,y,qRgb(255,0,0));
         for(int yy=y;yy<canvas->height();yy++){
             if (canvas->pixel(previousPoint.x()+x,yy)==color)
-                canvas->setPixel(previousPoint.x()+x,yy,qRgb(255,255,255));
+                drawPix(canvaspix,canvas->width(),canvas->height(),previousPoint.x()+x,yy,qRgb(255,255,255));
             else
-                canvas->setPixel(previousPoint.x()+x,yy,color);
+                drawPix(canvaspix,canvas->width(),canvas->height(),previousPoint.x()+x,yy,color);
         }
     }
 }
@@ -51,8 +58,8 @@ void paintCanvas(QImage*canvas,QList<QPoint>*points,QRgb color)
     {
         for(int i=-6;i<7;++i)
         {
-            canvas->setPixel(point.x()+i,point.y(),qRgb(0,0,0));
-            canvas->setPixel(point.x(),point.y()+i,qRgb(0,0,0));
+            drawPix((QRgb*)canvas->bits(),canvas->width(),canvas->height(),point.x()+i,point.y(),qRgb(0,0,0));
+            drawPix((QRgb*)canvas->bits(),canvas->width(),canvas->height(),point.x(),point.y()+i,qRgb(0,0,0));
         }
     }
 }
@@ -96,6 +103,11 @@ void PolyCanvas::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
     painter.drawImage(QPoint(0,0),*canvas);
+    QImage img(50,50,QImage::Format_ARGB32);
+    QRgb*imgpix=(QRgb*)img.bits();
+    for(int i=0;i<50;++i)
+        imgpix[500+i]=qRgb(255,0,0);
+    painter.drawImage(500,0,img);
 }
 
 void PolyCanvas::mouseMoveEvent(QMouseEvent *e)
@@ -121,4 +133,11 @@ void PolyCanvas::mousePressEvent(QMouseEvent *e)
         update();
     }
 
+}
+
+void PolyCanvas::leaveEvent(QEvent *)
+{
+    points[points.size()-1]=points.at(0);
+    paintCanvas(canvas,&points,paintcolor);
+    update();
 }
