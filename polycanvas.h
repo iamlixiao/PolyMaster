@@ -1,7 +1,7 @@
 #ifndef POLYCANVAS_H
 #define POLYCANVAS_H
 
-#include <QWidget>
+#include <QtWidgets>
 #include<QPoint>
 
 class PolyCanvas : public QWidget
@@ -9,6 +9,7 @@ class PolyCanvas : public QWidget
     Q_OBJECT
     QList<QPoint>points;
     QImage*canvas;
+    QRgb paintcolor=qRgb(255,0,0);
 public:
     explicit PolyCanvas(QWidget *parent = 0);
 
