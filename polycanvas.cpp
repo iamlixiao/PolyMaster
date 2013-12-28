@@ -74,53 +74,56 @@ PolyCanvas::PolyCanvas(QWidget *parent) :
     canvas=new QImage(500,500,QImage::Format_ARGB32);
     canvas->fill(Qt::white);
 
+    R=new Rasterizer(500,500);
+
     setWindowTitle("多边形绘图");
     resize(650,500);
 
-    QPushButton*clearbutton=new QPushButton("清空",this);
-    clearbutton->move(width()-clearbutton->width()-25,25);
-    connect(clearbutton,&QPushButton::clicked,[=]{
-        canvas->fill(Qt::white);
-        update();
-        points.clear();
-        points.append(QPoint());
-    });
+//    QPushButton*clearbutton=new QPushButton("清空",this);
+//    clearbutton->move(width()-clearbutton->width()-25,25);
+//    connect(clearbutton,&QPushButton::clicked,[=]{
+//        canvas->fill(Qt::white);
+//        update();
+//        points.clear();
+//        points.append(QPoint());
+//    });
 
-    QLineEdit*rgbedit=new QLineEdit("255,0,0",this);
-    rgbedit->setGeometry(width()-clearbutton->width()-25,75,clearbutton->width(),rgbedit->height());
-    QPushButton*changecolor=new QPushButton("更改颜色",this);
-    changecolor->move(width()-clearbutton->width()-25,125);
-    connect(changecolor,&QPushButton::clicked,[=]{
-        QStringList colortxt=rgbedit->text().split(',');
-        paintcolor=qRgb(colortxt[0].toInt(),colortxt[1].toInt(),colortxt[2].toInt());
-        paintCanvas(canvas,&points,paintcolor);
-        update();
-    });
+//    QLineEdit*rgbedit=new QLineEdit("255,0,0",this);
+//    rgbedit->setGeometry(width()-clearbutton->width()-25,75,clearbutton->width(),rgbedit->height());
+//    QPushButton*changecolor=new QPushButton("更改颜色",this);
+//    changecolor->move(width()-clearbutton->width()-25,125);
+//    connect(changecolor,&QPushButton::clicked,[=]{
+//        QStringList colortxt=rgbedit->text().split(',');
+//        paintcolor=qRgb(colortxt[0].toInt(),colortxt[1].toInt(),colortxt[2].toInt());
+//        paintCanvas(canvas,&points,paintcolor);
+//        update();
+//    });
 
 }
 
 void PolyCanvas::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
-    painter.drawImage(QPoint(0,0),*canvas);
-    QImage img(50,50,QImage::Format_ARGB32);
-    QRgb*imgpix=(QRgb*)img.bits();
-    for(int i=0;i<50;++i)
-        imgpix[500+i]=qRgb(255,0,0);
-    painter.drawImage(500,0,img);
+    QBrush brush(mask);
+    painter.drawImage(0,0,mask);
+    painter.fillRect(rect(),brush);
+//    painter.drawImage(QPoint(0,0),*canvas);
 }
 
 void PolyCanvas::mouseMoveEvent(QMouseEvent *e)
 {
     if(e->x()<canvas->width()&&e->y()<canvas->height())
     {
-        points[points.size()-1]=QPoint(e->x(),e->y());
+        activePoly.setLastPoly(QPointF(e->x(),e->y()));
+//        points[points.size()-1]=QPoint(e->x(),e->y());
     }
     else
     {
-        points[points.size()-1]=points.at(0);
+        activePoly.setLastPoly(activePoly.firstPoly());
+//        points[points.size()-1]=points.at(0);
     }
-    paintCanvas(canvas,&points,paintcolor);
+    mask=R->rasterize(activePoly);
+//    paintCanvas(canvas,&points,paintcolor);
     update();
 }
 
@@ -128,8 +131,10 @@ void PolyCanvas::mousePressEvent(QMouseEvent *e)
 {
     if(e->x()<canvas->width()&&e->y()<canvas->height())
     {
-        points.append(QPoint(e->x(),e->y()));
-        paintCanvas(canvas,&points,paintcolor);
+        activePoly.addPoint(QPointF(e->x(),e->y()));
+        mask=R->rasterize(activePoly);
+//        points.append(QPoint(e->x(),e->y()));
+//        paintCanvas(canvas,&points,paintcolor);
         update();
     }
 
@@ -137,7 +142,9 @@ void PolyCanvas::mousePressEvent(QMouseEvent *e)
 
 void PolyCanvas::leaveEvent(QEvent *)
 {
-    points[points.size()-1]=points.at(0);
-    paintCanvas(canvas,&points,paintcolor);
+    activePoly.setLastPoly(activePoly.firstPoly());
+    mask=R->rasterize(activePoly);
+//    points[points.size()-1]=points.at(0);
+//    paintCanvas(canvas,&points,paintcolor);
     update();
 }
