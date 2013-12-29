@@ -65,7 +65,8 @@ PolyCanvas::PolyCanvas(QWidget *parent) :
     viewport=new QPixmap(viewportSize);
     viewport->fill(Qt::white);
 
-    kernel=new MouseDrawKernel(this);
+//    kernel=new MouseDrawKernel(this);
+    kernel=new CubeKernel(this);
 
     setMouseTracking(true);
 

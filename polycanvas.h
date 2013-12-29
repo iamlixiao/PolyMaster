@@ -5,6 +5,7 @@
 #include<QPoint>
 #include"polygon2d.h"
 #include"mousedrawkernel.h"
+#include"cubekernel.h"
 
 class PolyCanvas : public QWidget
 {
