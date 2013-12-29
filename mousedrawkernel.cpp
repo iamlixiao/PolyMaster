@@ -1,7 +1,7 @@
 #include "mousedrawkernel.h"
 
-MouseDrawKernel::MouseDrawKernel(QObject *parent) :
-    PolygonKernel(parent)
+MouseDrawKernel::MouseDrawKernel(QSize s, QObject *parent) :
+    PolygonKernel(s,parent)
 {
     polygons.append(Polygon2D());
 }

@@ -6,7 +6,7 @@ class MouseDrawKernel : public PolygonKernel
 {
     Q_OBJECT
 public:
-    explicit MouseDrawKernel(QObject *parent = 0);
+    explicit MouseDrawKernel(QSize s,QObject *parent = 0);
 
     void mouseMoveEvent(QMouseEvent *);
     void mousePressEvent(QMouseEvent *);

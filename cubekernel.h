@@ -19,7 +19,7 @@ class CubeKernel : public PolygonKernel
     QMatrix4x4 translation;
     qreal zs;
 public:
-    explicit CubeKernel(QObject *parent = 0);
+    CubeKernel(QSize s,QObject *parent = 0);
 
     void mouseMoveEvent(QMouseEvent *);
     void mousePressEvent(QMouseEvent *);

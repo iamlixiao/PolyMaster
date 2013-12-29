@@ -50,7 +50,6 @@ QList<QVector3D> Polygon3D::renderOut(QMatrix4x4 translation)
     foreach(QVector3D p,vertices)
     {
         QVector3D e=p*translation;
-        qDebug()<<p*translation;
         c.append(e);
     }
     return c;
