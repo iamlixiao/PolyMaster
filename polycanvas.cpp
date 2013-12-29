@@ -108,19 +108,16 @@ void PolyCanvas::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
     painter.drawPixmap(0,0,*viewport);
-//    painter.drawImage(QPoint(0,0),*canvas);
 }
 
 void PolyCanvas::mouseMoveEvent(QMouseEvent *e)
 {
     if(e->x()<viewportSize.width()&&e->y()<viewportSize.height())
     {
-        polygons.setLast(QPointF(e->x(),e->y()));
         kernel->mouseMoveEvent(e);
     }
     else
     {
-        polygons.setLast(polygons.first());
         kernel->leaveEvent(e);
     }
     update();
@@ -130,18 +127,14 @@ void PolyCanvas::mousePressEvent(QMouseEvent *e)
 {
     if(e->x()<viewportSize.width()&&e->y()<viewportSize.height())
     {
-        polygons.addPoint(QPointF(e->x(),e->y()));
         kernel->mousePressEvent(e);
         update();
     }
 
 }
 
-void PolyCanvas::leaveEvent(QEvent *)
+void PolyCanvas::leaveEvent(QEvent *e)
 {
-    polygons.setLast(polygons.first());
-    viewport->fill(Qt::white);
-    QPainter painter(viewport);
-    painter.drawImage(0,0,*rasterizePolygon(viewportSize,polygons));
+    kernel->leaveEvent(e);
     update();
 }
