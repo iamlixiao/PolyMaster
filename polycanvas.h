@@ -3,12 +3,16 @@
 
 #include <QtWidgets>
 #include<QPoint>
+#include"polygon2d.h"
+#include"mousedrawkernel.h"
 
 class PolyCanvas : public QWidget
 {
     Q_OBJECT
-    QList<QPoint>points;
-    QImage*canvas;
+    PolygonKernel*kernel;
+    Polygon2D polygons;
+    QPixmap*viewport;
+    QSize viewportSize;
     QRgb paintcolor=qRgb(255,0,0);
 public:
     explicit PolyCanvas(QWidget *parent = 0);
@@ -16,6 +20,7 @@ public:
 signals:
 
 public slots:
+    void update();
 protected:
     void paintEvent(QPaintEvent *);
     void mouseMoveEvent(QMouseEvent *);

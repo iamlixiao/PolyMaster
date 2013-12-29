@@ -7,7 +7,13 @@ CONFIG+=c++11
 
 SOURCES += \
     main.cpp \
-    polycanvas.cpp
+    polycanvas.cpp \
+    polygon2d.cpp \
+    polygonkernel.cpp \
+    mousedrawkernel.cpp
 
 HEADERS += \
-    polycanvas.h
+    polycanvas.h \
+    polygon2d.h \
+    polygonkernel.h \
+    mousedrawkernel.h
