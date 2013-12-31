@@ -11,7 +11,7 @@ QImage*rasterizePolygon(QSize rasterSize,Polygon2D p)
 
     QRgb*bit=(QRgb*)raster->bits();
 
-    auto flipDown=[=](QPointF p1,QPointF p2,QRgb color)
+    auto flipDown=[=](QPointF pf1,QPointF pf2,QRgb color)
     {
         auto setPix=[=](int x,int y)
         {
@@ -23,24 +23,36 @@ QImage*rasterizePolygon(QSize rasterSize,Polygon2D p)
                     bit[y*rasterSize.width()+x]=color;
             }
         };
+        auto drawPix=[=](int x,int y,bool erase=false)
+        {
+            if(x>0&&x<rasterSize.width()&&y>0&&y<rasterSize.height())
+            {
+                if(erase)
+                    bit[y*rasterSize.width()+x]=Qt::transparent;
+                else
+                    bit[y*rasterSize.width()+x]=color;
+            }
+        };
 
-
-        QPointF d=p2-p1;
+        QPoint p2(pf2.x(),pf2.y()),p1(pf1.x(),pf1.y());
+        QPoint d=p2-p1;
 
         if (d.x()==0){
             if (d.y()>0)
-                for(int i=0;i<d.y();i++)
-                    setPix(p1.x(),p1.y()+i);
+            {
+                for(int i=p1.y();i<=p2.y();i++)
+                    drawPix(p1.x(),i);
+            }
             else
-                for(int i=d.y();i<=0;i++)
-                    setPix(p1.x(),p1.y()+i);
+                for(int i=p2.y();i<=p1.y();i++)
+                    setPix(p1.x(),i);
             return;
         }
 
         double k=(double)d.y()/d.x();
         for(int x=(d.x()<0?d.x():0);x<(d.x()>0?d.x():0);++x)
         {
-            int y=x*k+p1.y()+0.5;
+            int y=x*k+p1.y();
             for(int yy=y;yy<rasterSize.height();yy++){
                 setPix(p1.x()+x,yy);
             }
