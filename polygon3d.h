@@ -20,6 +20,17 @@ public:
     void setZs(qreal z);
     void setColor(QColor);
     QColor getColor();
+    QVector3D getCenter()
+    {
+        //求平均
+        qreal x=0,y=0,z=0,s=vertices.size();
+        foreach (QVector3D v, vertices) {
+            x+=v.x()/s;
+            y+=v.y()/s;
+            z+=v.z()/s;
+        }
+        return QVector3D(x,y,z);
+    }
     QList<QVector3D> renderOut(QMatrix4x4);
 };
 

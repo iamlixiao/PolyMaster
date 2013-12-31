@@ -20,7 +20,7 @@ public:
     virtual void mousePressEvent(QMouseEvent *)=0;
     virtual void leaveEvent(QEvent *)=0;
 signals:
-
+    void updated();
 public slots:
 
 };

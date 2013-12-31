@@ -69,6 +69,8 @@ PolyCanvas::PolyCanvas(QWidget *parent) :
     kernel=new CubeKernel(viewportSize,this);
     kernel->setViewportSize(viewportSize);
 
+    connect(kernel,SIGNAL(updated()),SLOT(update()));
+
     setMouseTracking(true);
 
     setWindowTitle("多边形绘图");
@@ -122,7 +124,6 @@ void PolyCanvas::mouseMoveEvent(QMouseEvent *e)
     {
         kernel->leaveEvent(e);
     }
-    update();
 }
 
 void PolyCanvas::mousePressEvent(QMouseEvent *e)
@@ -130,7 +131,6 @@ void PolyCanvas::mousePressEvent(QMouseEvent *e)
     if(e->x()<viewportSize.width()&&e->y()<viewportSize.height())
     {
         kernel->mousePressEvent(e);
-        update();
     }
 
 }
@@ -138,5 +138,4 @@ void PolyCanvas::mousePressEvent(QMouseEvent *e)
 void PolyCanvas::leaveEvent(QEvent *e)
 {
     kernel->leaveEvent(e);
-    update();
 }

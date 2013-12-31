@@ -10,19 +10,14 @@ CubeKernel::CubeKernel(QSize s, QObject *parent) :
     setTranslation({-50,-100,0});
     zs=90;
 
-    double dx=s.width()/2.0,dy=s.height()/2.0;
-    qDebug()<<dx<<dy<<s;
-    foreach(Polygon3D p,scene)
-    {
-        QList<QVector3D> ce=p.renderOut(translation);
-        QList<QPointF> cs;
-        foreach(QVector3D e,ce)
-        {
-                cs.append(QPointF(e.x()*zs/e.z()+dx,e.y()*zs/e.z()+dy));
-                qDebug()<<QPointF(e.x()*zs/e.z(),e.y()*zs/e.z());
-        }
-        polygons.append(Polygon2D(cs,p.getColor()));
-    }
+    update();
+    QTimer*timer=new QTimer(this);
+    timer->setInterval(33);
+    connect(timer,&QTimer::timeout,[=]{
+        rotateXY(0.01);
+        update();
+    });
+    timer->start();
 }
 
 void CubeKernel::mouseMoveEvent(QMouseEvent *)
