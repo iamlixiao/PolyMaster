@@ -50,7 +50,6 @@ class CubeKernel : public PolygonKernel
             foreach(QVector3D e,ce)
             {
                     cs.append(QPointF(e.x()*zs/e.z()+dx,e.y()*zs/e.z()+dy));
-                    qDebug()<<QPointF(e.x()*zs/e.z(),e.y()*zs/e.z());
             }
             polygons.append(Polygon2D(cs,p.getColor()));
         }
