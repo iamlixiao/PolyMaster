@@ -81,7 +81,6 @@ PolyCanvas::PolyCanvas(QWidget *parent) :
     PolygonKernel*kernel2=new CubeKernel(viewportSize,this);
 
     kernel=kernel1;
-//    kernel=new CubeKernel(viewportSize,this);
     kernel->setViewportSize(viewportSize);
 
     connect(kernel,SIGNAL(updated()),SLOT(update()));
@@ -98,11 +97,19 @@ PolyCanvas::PolyCanvas(QWidget *parent) :
         kernel->reset();
     });
 
+    QLabel*explain=new QLabel(kernel->getExplanation(),this);
+    explain->move(width()-clearbutton->width()-25,175);
+    explain->setFixedWidth(clearbutton->width());
+    explain->setFixedHeight(height()-explain->geometry().top());
+    explain->setAlignment(Qt::AlignTop | Qt::AlignLeft);
+    explain->setWordWrap(true);
+
     QPushButton*useKernel1=new QPushButton("绘制多边形",this);
     useKernel1->move(width()-clearbutton->width()-25,75);
     connect(useKernel1,&QPushButton::clicked,[=]{
         kernel=kernel1;
         connect(kernel,SIGNAL(updated()),SLOT(update()));
+        explain->setText(kernel->getExplanation());
         update();
     });
 
@@ -111,6 +118,7 @@ PolyCanvas::PolyCanvas(QWidget *parent) :
     connect(useKernel2,&QPushButton::clicked,[=]{
         kernel=kernel2;
         connect(kernel,SIGNAL(updated()),SLOT(update()));
+        explain->setText(kernel->getExplanation());
         update();
     });
 

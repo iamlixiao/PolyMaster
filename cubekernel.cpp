@@ -38,6 +38,8 @@ void CubeKernel::update()
 CubeKernel::CubeKernel(QSize s, QObject *parent) :
     PolygonKernel(s,parent)
 {
+    explanation="用键盘控制方块\n\nA/S/D/W/Q/E\n旋转\n\nJ/K/L/I/H/N\n平移";
+
     scene.append(Polygon3D({{-50,50,-50},{50,50,-50},{50,50,50},{-50,50,50}},Qt::red));
     scene.append(Polygon3D({{-50,-50,-50},{50,-50,-50},{50,-50,50},{-50,-50,50}},Qt::yellow));
     scene.append(Polygon3D({{50,-50,-50},{50,50,-50},{50,50,50},{50,-50,50}},Qt::green));

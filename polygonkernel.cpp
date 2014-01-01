@@ -16,6 +16,11 @@ QList<Polygon2D> PolygonKernel::getPolygons()
     return polygons;
 }
 
+QString PolygonKernel::getExplanation()
+{
+    return explanation;
+}
+
 void PolygonKernel::reset()
 {
     polygons.clear();

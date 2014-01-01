@@ -11,10 +11,12 @@ class PolygonKernel : public QObject
 protected:
     QList<Polygon2D> polygons;
     QSize viewportSize;
+    QString explanation;
 public:
     explicit PolygonKernel(QSize s, QObject *parent = 0);
     void setViewportSize(QSize);
     QList<Polygon2D> getPolygons();
+    QString getExplanation();
 
     virtual void mouseMoveEvent(QMouseEvent *)=0;
     virtual void mousePressEvent(QMouseEvent *)=0;

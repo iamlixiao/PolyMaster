@@ -3,6 +3,7 @@
 MouseDrawKernel::MouseDrawKernel(QSize s, QObject *parent) :
     PolygonKernel(s,parent)
 {
+    explanation="用鼠标在绘图区域中点击，可以增加顶点，画出多边形！";
     polygons.append(Polygon2D());
     emit updated();
 
