@@ -19,6 +19,8 @@ public:
     virtual void mouseMoveEvent(QMouseEvent *)=0;
     virtual void mousePressEvent(QMouseEvent *)=0;
     virtual void leaveEvent(QEvent *)=0;
+    virtual void keyPressEvent(QKeyEvent*)=0;
+    virtual void keyReleaseEvent(QKeyEvent *e)=0;
 signals:
     void updated();
 public slots:

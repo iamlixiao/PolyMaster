@@ -32,6 +32,7 @@ public:
         return QVector3D(x,y,z);
     }
     QList<QVector3D> renderOut(QMatrix4x4);
+    QList<QVector3D> renderOut(QMatrix4x4,QVector3D,QMatrix4x4);
 };
 
 #endif // MESH3D_H

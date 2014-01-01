@@ -106,6 +106,7 @@ PolyCanvas::PolyCanvas(QWidget *parent) :
         update();
     });
 
+    update();
 }
 
 void PolyCanvas::update()
@@ -150,4 +151,14 @@ void PolyCanvas::mousePressEvent(QMouseEvent *e)
 void PolyCanvas::leaveEvent(QEvent *e)
 {
     kernel->leaveEvent(e);
+}
+
+void PolyCanvas::keyPressEvent(QKeyEvent *e)
+{
+    kernel->keyPressEvent(e);
+}
+
+void PolyCanvas::keyReleaseEvent(QKeyEvent *e)
+{
+    kernel->keyReleaseEvent(e);
 }

@@ -27,6 +27,8 @@ protected:
     void mouseMoveEvent(QMouseEvent *);
     void mousePressEvent(QMouseEvent *);
     void leaveEvent(QEvent *);
+    void keyPressEvent(QKeyEvent*);
+    void keyReleaseEvent(QKeyEvent*);
 };
 
 #endif // POLYCANVAS_H

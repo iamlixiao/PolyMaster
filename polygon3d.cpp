@@ -54,3 +54,14 @@ QList<QVector3D> Polygon3D::renderOut(QMatrix4x4 translation)
     }
     return c;
 }
+
+QList<QVector3D> Polygon3D::renderOut(QMatrix4x4 o,QVector3D m, QMatrix4x4 v)
+{
+    QList<QVector3D>c;
+    foreach(QVector3D p,vertices)
+    {
+        QVector3D e=(p*o+m)*v;
+        c.append(e);
+    }
+    return c;
+}
