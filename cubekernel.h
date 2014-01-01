@@ -40,20 +40,21 @@ class CubeKernel : public PolygonKernel
     }
     bool canSee(Polygon3D face)
     {
-        QVector3D G;
-        foreach (Polygon3D p, scene) {
-            G+=p.getCenter()*rotation;
-        }
-        G/=scene.size();
-        QVector3D n=G-face.getCenter()*rotation;
+        QVector3D n=-face.getCenter()*rotation;
         QVector3D v=viewPoint-face.getCenter()*rotation-movement;
         return QVector3D::dotProduct(n,v)<0;
+    }
+    float illuminace(Polygon3D face)
+    {
+        QVector3D n=-face.getCenter()*rotation;
+        return QVector3D::dotProduct(n.normalized(),lightDirection.normalized());
     }
 
     void update();
 
     QList<Polygon3D> scene;
     QVector3D viewPoint;
+    QVector3D lightDirection=QVector3D(1,1,2);
     QMatrix4x4 aspect;
     QMatrix4x4 rotation;
     QVector3D movement;

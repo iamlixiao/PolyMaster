@@ -20,7 +20,16 @@ void CubeKernel::update()
             {
                 cs.append(QPointF(e.x()*zs/e.z()+dx,e.y()*zs/e.z()+dy));
             }
-            polygons.append(Polygon2D(cs,p.getColor()));
+            QColor pColor=p.getColor();
+            float ill=illuminace(p)*75;
+            if(ill>0)
+            {
+                polygons.append(Polygon2D(cs,p.getColor().lighter(100+ill)));
+            }
+            else
+            {
+                polygons.append(Polygon2D(cs,p.getColor().darker(100-2*ill)));
+            }
         }
     }
     emit updated();
