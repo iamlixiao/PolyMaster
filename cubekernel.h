@@ -74,7 +74,7 @@ public:
 signals:
 
 public slots:
-
+    void recover();
 };
 
 #endif // CUBEKERNEL_H

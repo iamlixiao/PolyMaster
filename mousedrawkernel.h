@@ -11,10 +11,12 @@ public:
     void mouseMoveEvent(QMouseEvent *);
     void mousePressEvent(QMouseEvent *);
     void leaveEvent(QEvent *);
+    void keyPressEvent(QKeyEvent *);
+    void keyReleaseEvent(QKeyEvent *);
 signals:
 
 public slots:
-
+    void clear();
 };
 
 #endif // MOUSEDRAWKERNEL_H

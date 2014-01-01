@@ -5,6 +5,8 @@ MouseDrawKernel::MouseDrawKernel(QSize s, QObject *parent) :
 {
     polygons.append(Polygon2D());
     emit updated();
+
+    connect(this,SIGNAL(reseted()),SLOT(clear()));
 }
 
 void MouseDrawKernel::mouseMoveEvent(QMouseEvent *e)
@@ -22,5 +24,21 @@ void MouseDrawKernel::mousePressEvent(QMouseEvent *e)
 void MouseDrawKernel::leaveEvent(QEvent *)
 {
     polygons.last().setLast(polygons.last().first());
+    emit updated();
+}
+
+void MouseDrawKernel::keyPressEvent(QKeyEvent *)
+{
+
+}
+
+void MouseDrawKernel::keyReleaseEvent(QKeyEvent *)
+{
+
+}
+
+void MouseDrawKernel::clear()
+{
+    polygons.append(Polygon2D());
     emit updated();
 }

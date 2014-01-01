@@ -77,8 +77,11 @@ PolyCanvas::PolyCanvas(QWidget *parent) :
     viewport=new QPixmap(viewportSize);
     viewport->fill(Qt::white);
 
-//    kernel=new MouseDrawKernel(this);
-    kernel=new CubeKernel(viewportSize,this);
+    PolygonKernel*kernel1=new MouseDrawKernel(viewportSize,this);
+    PolygonKernel*kernel2=new CubeKernel(viewportSize,this);
+
+    kernel=kernel1;
+//    kernel=new CubeKernel(viewportSize,this);
     kernel->setViewportSize(viewportSize);
 
     connect(kernel,SIGNAL(updated()),SLOT(update()));
@@ -88,21 +91,26 @@ PolyCanvas::PolyCanvas(QWidget *parent) :
     setWindowTitle("多边形绘图");
     resize(650,500);
 
-    QPushButton*clearbutton=new QPushButton("清空",this);
+    QPushButton*clearbutton=new QPushButton("重置",this);
     clearbutton->move(width()-clearbutton->width()-25,25);
     connect(clearbutton,&QPushButton::clicked,[=]{
         viewport->fill(Qt::white);
-        update();
-        polygons.clear();
+        kernel->reset();
     });
 
-    QLineEdit*rgbedit=new QLineEdit("255,0,0",this);
-    rgbedit->setGeometry(width()-clearbutton->width()-25,75,clearbutton->width(),rgbedit->height());
-    QPushButton*changecolor=new QPushButton("更改颜色",this);
-    changecolor->move(width()-clearbutton->width()-25,125);
-    connect(changecolor,&QPushButton::clicked,[=]{
-        QStringList colortxt=rgbedit->text().split(',');
-        paintcolor=qRgb(colortxt[0].toInt(),colortxt[1].toInt(),colortxt[2].toInt());
+    QPushButton*useKernel1=new QPushButton("绘制多边形",this);
+    useKernel1->move(width()-clearbutton->width()-25,75);
+    connect(useKernel1,&QPushButton::clicked,[=]{
+        kernel=kernel1;
+        connect(kernel,SIGNAL(updated()),SLOT(update()));
+        update();
+    });
+
+    QPushButton*useKernel2=new QPushButton("3D立方体",this);
+    useKernel2->move(width()-clearbutton->width()-25,125);
+    connect(useKernel2,&QPushButton::clicked,[=]{
+        kernel=kernel2;
+        connect(kernel,SIGNAL(updated()),SLOT(update()));
         update();
     });
 

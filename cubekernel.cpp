@@ -44,6 +44,8 @@ CubeKernel::CubeKernel(QSize s, QObject *parent) :
 
     update();
 
+    connect(this,SIGNAL(reseted()),SLOT(recover()));
+
     rotateXY001Timer=new QTimer(this);
     rotateXY001Timer->setInterval(33);
     connect(rotateXY001Timer,&QTimer::timeout,[=]
@@ -258,4 +260,14 @@ void CubeKernel::keyReleaseEvent(QKeyEvent *e)
     {
         moveZ1bTimer->stop();
     }
+}
+
+void CubeKernel::recover()
+{
+    movement=QVector3D();
+    rotation=QMatrix4x4();
+    rotation.rotate(45,0,0,1);
+    rotation.rotate(25,1,0,0);
+
+    update();
 }

@@ -15,3 +15,9 @@ QList<Polygon2D> PolygonKernel::getPolygons()
 {
     return polygons;
 }
+
+void PolygonKernel::reset()
+{
+    polygons.clear();
+    emit reseted();
+}

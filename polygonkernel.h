@@ -23,8 +23,9 @@ public:
     virtual void keyReleaseEvent(QKeyEvent *e)=0;
 signals:
     void updated();
+    void reseted();
 public slots:
-
+    void reset();
 };
 
 #endif // POLYGONKERNEL_H
