@@ -40,6 +40,6 @@ void MouseDrawKernel::keyReleaseEvent(QKeyEvent *)
 
 void MouseDrawKernel::clear()
 {
-    polygons.append(Polygon2D());
+    polygons.append(Polygon2D({QPoint()},Qt::red));
     emit updated();
 }
