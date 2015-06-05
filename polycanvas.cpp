@@ -59,14 +59,14 @@ QImage*rasterizePolygon(QSize rasterSize,Polygon2D p)
         }
     };
 
-    QPointF firstPoint=p.first(),previousPoint=firstPoint;
+    QPointF previousPoint=p.first();
     for(int i=1;i<p.points();++i)
     {
         QPointF currentPoint=p.point(i);
         flipDown(previousPoint,currentPoint,p.getColor().rgb());
         previousPoint=currentPoint;
     }
-    flipDown(p.last(),p.first(),p.getColor().rgb());
+    flipDown(previousPoint,p.first(),p.getColor().rgb());
     return raster;
 }
 
